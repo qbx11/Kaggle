@@ -67,6 +67,14 @@ print(f"Children (0-12): {children_percent:.1%}\n"
       f"Adults (18-59): {adults_percent:.1%}\n"
       f"Elderly (60+): {elderly_percent:.1%}\n")
 
+print(train_df['Name'].head())
+
+#does family size matter?
+train_df['Family size'] = train_df['SibSp'] + train_df['Parch']
+print(train_df.groupby('Family size')['Survived'].mean())
+
+print(train_df['Embarked'].isnull().sum())
+print(train_df['Embarked'].value_counts())
 
 
 
