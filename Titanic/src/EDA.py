@@ -20,7 +20,7 @@ female_by_class = survivor_female['Pclass'].value_counts()
 print(female_by_class)
 """
 
-#Hypothesis 1: (Survivorship by sex)
+#Hypothesis 1: (Survival rate by sex)
 print("Survivorship by sex")
 print("Man: ")
 male_survived = train_df[train_df['Sex']=='male']['Survived']
@@ -32,7 +32,7 @@ female_survived = train_df[train_df['Sex']=='female']['Survived']
 female_survived_percent = female_survived.mean()
 print(f"{female_survived_percent:.2%}")
 
-#Hypothesis 2: (Survivorship by Pclass)
+#Hypothesis 2: (Survival rate by Pclass)
 print("\nSurvivorship by Pclass")
 print("First class: ")
 first_class = train_df[train_df['Pclass']==1]['Survived']
@@ -49,7 +49,9 @@ third_class = train_df[train_df['Pclass']==3]['Survived']
 third_class_percent = third_class.mean()
 print(f"{third_class_percent:.2%}")
 
-#Hypothesis 3: (Survivorship by age)
+
+
+#Hypothesis 3: (Survival rate by age)
 pass_without_age = train_df['Age'].isnull().sum()
 all_pass_num = len(train_df)
 print(f"\nPassengers with missing age data: {pass_without_age} out of {all_pass_num} ({(pass_without_age / all_pass_num):.1%})  ")

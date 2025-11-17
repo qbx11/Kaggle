@@ -14,9 +14,9 @@ train_path = project_dir / 'data' / 'processed' / 'train_processed.csv'
 train = pd.read_csv(train_path)
 
 #define the features
-feature_cols = ['Sex_numeric','Age', 'Pclass','Fare','Alone',
+feature_cols = ['Sex_numeric','Age', 'Pclass','Fare',
                 #Family size
-                'Small family','Large family',
+                'Alone','Small family','Large family',
                 #Title
                 'Title__Master','Title__Miss', 'Title__Mr', 'Title__Mrs',
                 #Embarked
