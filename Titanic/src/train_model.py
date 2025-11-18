@@ -1,4 +1,5 @@
 import pandas as pd
+import pickle
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
@@ -12,6 +13,7 @@ from xgboost import XGBClassifier
 script_dir = Path(__file__).parent
 project_dir = script_dir.parent
 train_path = project_dir / 'data' / 'processed' / 'train_processed.csv'
+models_dir = project_dir / 'models'
 
 #read data
 train = pd.read_csv(train_path)
@@ -38,6 +40,8 @@ X_train, X_val, Y_train, Y_val = train_test_split(
     random_state=42
 )
 
+
+
 #data scaling (Standard Scaler)
 scaler = StandardScaler()
 scaler.fit(X_train)
@@ -45,6 +49,11 @@ scaler.fit(X_train)
 #update data after scaling
 X_train_scaled = scaler.transform(X_train)
 X_val_scaled = scaler.transform(X_val)
+
+#save scaler
+with open(models_dir,'wb') as file:
+    pickle.dump(scaler,file)
+
 
 #model training - Logistic Regression
 lr_model = LogisticRegression(max_iter=100)
@@ -61,6 +70,12 @@ feature_weight = sorted(list(zip(feature_cols,lr_model.coef_[0])),key=lambda x: 
 for name,wage in feature_weight:
     print(f'{name:<15}: {wage:+.3f}')
 print("Bias:", lr_model.intercept_)
+
+#save model
+with open(models_dir / 'lr_model.pkl','wb') as file:
+    pickle.dump(lr_model,file)
+
+
 
 
 #model training - Random Forrest (no scaling)
@@ -81,6 +96,10 @@ feature_importance = sorted(list(zip(feature_cols, rf_model.feature_importances_
 for name, importance in feature_importance:
     print(f'{name:<15}: {importance*100:.3f}')
 
+#save model
+with open(models_dir / 'rf_model.pkl','wb') as file:
+    pickle.dump(rf_model,file)
+
 #model training - XGBoost
 xgb_model = XGBClassifier(
     n_estimators=100,
@@ -92,3 +111,8 @@ xgb_model.fit(X_train, Y_train)
 xgb_predictions = xgb_model.predict(X_val)
 xgb_accuracy = accuracy_score(Y_val,xgb_predictions)
 print(xgb_accuracy)
+
+#save model
+with open(models_dir / 'xgb_model.pkl','wb') as file:
+    pickle.dump(xgb_model,file)
+
