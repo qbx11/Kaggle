@@ -49,12 +49,35 @@ train['Large family'] = (train['Family size']>3).astype(int)
 train["Embarked"] = train["Embarked"].transform(lambda x: x.fillna('S'))
 
 #one-hot encoding for 'Title' column
-title_dummies = pd.get_dummies(train['Title'],prefix='Title_')
+title_dummies = pd.get_dummies(train['Title'],prefix='Title_').astype(int)
 train = pd.concat([train,title_dummies],axis=1)
 
 #one-hot encoding for 'Embarked' column
-embarked_dummies = pd.get_dummies(train['Embarked'],prefix='Embarked_')
+embarked_dummies = pd.get_dummies(train['Embarked'],prefix='Embarked_').astype(int)
 train = pd.concat([train,embarked_dummies],axis=1)
+
+#categorise age
+def categorize_age(age):
+    if age <= 12:
+        return 'Child'
+    elif age <= 17:
+        return 'Teen'
+    elif age <= 59:
+        return 'Adult'
+    else:
+        return 'Elderly'
+train['AgeGroup'] = train['Age'].apply(categorize_age)
+
+#one-hot encoding for 'Age' column
+age_dummies = pd.get_dummies(train['AgeGroup'], prefix='Age').astype(int)
+train = pd.concat([train,age_dummies],axis=1)
+
+
+#new feature: FarePerPerson
+train['FarePerPerson'] = (train['Fare'] / (train['SibSp'] + train['Parch'] + 1)).round(2)
+
+#new feature: HasCabin
+train['HasCabin'] = train['Cabin'].notna().astype(int)
 
 
 #processed data frame to csv
