@@ -116,3 +116,6 @@ print(xgb_accuracy)
 with open(models_dir / 'xgb_model.pkl','wb') as file:
     pickle.dump(xgb_model,file)
 
+#save features
+with open(models_dir / 'features.pkl','wb') as file:
+    pickle.dump(feature_cols,file)
