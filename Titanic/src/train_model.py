@@ -51,9 +51,8 @@ X_train_scaled = scaler.transform(X_train)
 X_val_scaled = scaler.transform(X_val)
 
 #save scaler
-with open(models_dir,'wb') as file:
+with open(models_dir / 'scaler.pkl','wb') as file:
     pickle.dump(scaler,file)
-
 
 #model training - Logistic Regression
 lr_model = LogisticRegression(max_iter=100)
@@ -115,6 +114,28 @@ print(xgb_accuracy)
 #save model
 with open(models_dir / 'xgb_model.pkl','wb') as file:
     pickle.dump(xgb_model,file)
+
+
+
+#model training - MLP from scratch
+import sys
+sys.path.append(str(models_dir))
+from models.mlp_from_scratch import Network
+
+mlp_model = Network([len(feature_cols),40,20,1])
+
+history = mlp_model.train(
+    X_train_scaled,
+    Y_train.values,
+    epochs=500,
+    learning_rate=0.001,
+    verbose=True
+)
+mlp_accuracy = mlp_model.evaluate(X_val_scaled, Y_val.values)
+print(f"MLP Accuracy: {mlp_accuracy:.2%}")
+
+mlp_model.save_weights(models_dir / 'mlp_model_40_20.pkl')
+
 
 #save features
 with open(models_dir / 'features.pkl','wb') as file:

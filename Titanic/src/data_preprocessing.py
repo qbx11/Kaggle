@@ -4,11 +4,13 @@ from pathlib import Path
 #file paths
 script_dir = Path(__file__).parent  # To jest src/
 project_dir = script_dir.parent      # To jest Titanic/
-train_path = project_dir / 'data' / 'raw' / 'train.csv'
-output_path = project_dir / 'data' / 'processed' / 'train_processed.csv'
+train_path = project_dir / 'data' / 'raw' / 'test.csv'
+output_path = project_dir / 'data' / 'processed' / 'test_processed.csv'
 
 #read data
 train = pd.read_csv(train_path)
+
+
 
 #FEATURE ENGINNERING AND PREPROCESSING
 
@@ -74,10 +76,12 @@ train = pd.concat([train,age_dummies],axis=1)
 
 
 #new feature: FarePerPerson
+train['Fare'] = train['Fare'].fillna(train['Fare'].median())
 train['FarePerPerson'] = (train['Fare'] / (train['SibSp'] + train['Parch'] + 1)).round(2)
 
 #new feature: HasCabin
 train['HasCabin'] = train['Cabin'].notna().astype(int)
+
 
 
 #processed data frame to csv
