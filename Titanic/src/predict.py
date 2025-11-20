@@ -73,8 +73,8 @@ from models.mlp_from_scratch import Network
 with open(models_dir / 'mlp_model.pkl','rb') as file:
     mlp_model = pickle.load(file)
 
-mlp_model = Network([len(feature_cols),40,20,1])
-mlp_model.load_weights(models_dir / 'mlp_model_40_20.pkl')
+mlp_model = Network([len(feature_cols),16,1])
+mlp_model.load_weights(models_dir / 'mlp_model_32_16_1.pkl')
 
 mlp_predictions = mlp_model.predict_classes(X_test_scaled)
 
@@ -93,5 +93,5 @@ submission_ensemble = pd.DataFrame({
     'PassengerId': passenger_ids,
     'Survived': ensemble_predictions
 })
-submission_ensemble.to_csv(results_dir / 'submission_ensemble_40_20.csv',index=False)
+submission_ensemble.to_csv(results_dir / 'submission_ensemble_32_16_1.csv',index=False)
 

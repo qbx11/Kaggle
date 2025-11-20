@@ -122,7 +122,7 @@ import sys
 sys.path.append(str(models_dir))
 from models.mlp_from_scratch import Network
 
-mlp_model = Network([len(feature_cols),40,20,1])
+mlp_model = Network([len(feature_cols),32,16,1])
 
 history = mlp_model.train(
     X_train_scaled,
@@ -134,9 +134,9 @@ history = mlp_model.train(
 mlp_accuracy = mlp_model.evaluate(X_val_scaled, Y_val.values)
 print(f"MLP Accuracy: {mlp_accuracy:.2%}")
 
-mlp_model.save_weights(models_dir / 'mlp_model_40_20.pkl')
+mlp_model.save_weights(models_dir / 'mlp_model.pkl')
 
 
 #save features
 with open(models_dir / 'features.pkl','wb') as file:
-    pickle.dump(feature_cols,file)
+    pickle.dump(feature_cols, file)
