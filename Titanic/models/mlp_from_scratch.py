@@ -146,10 +146,10 @@ class Network:
 
             self.layer_deltas[i] = deltas
 
-        # 2. Oblicz gradienty
+        #Oblicz gradienty
         gradients = self.compute_gradients()
 
-        # 3. AKTUALIZUJ WAGI (to było pominięte!)
+        #AKTUALIZUJ WAGI
         for i, layer in enumerate(self.layers):
             layer_gradients = gradients[f'layer_{i}']
             for j, neuron in enumerate(layer):
@@ -160,7 +160,7 @@ class Network:
 
 
 
-    def train(self, X_train, y_train, epochs, learning_rate, verbose=True):
+    def train(self, X_train, y_train, epochs, learning_rate, verbose=True,final_error=0.002):
 
         history = {'loss': []}
 
@@ -180,6 +180,13 @@ class Network:
 
             if verbose and epoch % 10 == 0:
                 print(f"Epoch {epoch}/{epochs}, Loss: {avg_loss:.6f}")
+
+            # Zatrzymywanie uczenia
+                # Wczesne zatrzymanie uczenia
+            if avg_loss < final_error:
+                print(f"Wczesne zatrzymanie uczenia po epoce {epoch}, Loss: {avg_loss:.6f}")
+                break
+
 
         return history
 
@@ -266,7 +273,7 @@ if __name__ == "__main__":
     network = Network([2, 4, 1])
 
 
-    history = network.train(X, y, epochs=2000, learning_rate=0.1)
+    history = network.train(X, y, epochs=2000, learning_rate=0.1,final_error = 0.002)
 
     print("\nPredykcje po treningu:")
     predictions = network.predict(X)
