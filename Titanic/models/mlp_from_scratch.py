@@ -1,13 +1,5 @@
 import numpy as np
 import pickle
-"""
-Multi-Layer Perceptron (MLP) implementation from scratch
-- Feedforward neural network
-- Fully connected layers
-- Sigmoid activation
-- Adam optimizer
-- Binary classification
-"""
 
 class Neuron:
     def __init__(self, num_of_inputs, name="Neuron"):
