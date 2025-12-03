@@ -4,8 +4,8 @@ from pathlib import Path
 #file paths
 current_dir = Path.cwd()
 project_dir = current_dir.parent
-train_path = project_dir / 'data' / 'raw' / 'test.csv'
-output_path = project_dir / 'data' / 'processed' / 'test_processed.csv'
+train_path = project_dir / 'data' / 'raw' / 'train.csv'
+output_path = project_dir / 'data' / 'processed' / 'train_processed.csv'
 
 #read data
 train = pd.read_csv(train_path)
